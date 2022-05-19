@@ -8,13 +8,6 @@ class SplashScreen extends StatelessWidget {
 
   final AuthManager _authmanager = Get.put(AuthManager());
 
-  Future<void> initializeSettings() async {
-    _authmanager.checkLoginStatus();
-
-    //Simulate other services for 3 seconds
-    await Future.delayed(const Duration(seconds: 3));
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -33,8 +26,11 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  Scaffold errorView(AsyncSnapshot<Object?> snapshot) {
-    return Scaffold(body: Center(child: Text('Error: ${snapshot.error}')));
+  Future<void> initializeSettings() async {
+    _authmanager.checkLoginStatus();
+
+    //Simulate other services for 3 seconds
+    await Future.delayed(const Duration(seconds: 3));
   }
 
   Scaffold waitingView() {
@@ -52,5 +48,9 @@ class SplashScreen extends StatelessWidget {
         ],
       ),
     ));
+  }
+
+  Scaffold errorView(AsyncSnapshot<Object?> snapshot) {
+    return Scaffold(body: Center(child: Text('Error: ${snapshot.error}')));
   }
 }
