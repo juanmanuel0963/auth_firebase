@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:auth_firebase/auth/constants/firebase_constants.dart';
 import 'package:auth_firebase/auth/helpers/auth_manager.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
@@ -62,39 +61,31 @@ class AuthController extends GetxController {
     return sStatusMessage;
   }
 
-  void register(String email, String password) async {
+  Future<String> register(String email, String password) async {
+    //Status message
+    String sStatusMessage = "";
+
     try {
+      //User authentication in Firebase
       final UserCredential user = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
-      if (user.user != null) {
-        /// Set isLogin to true
-        authManager.login(user.user?.uid);
-      } else {
-        /// Show user a dialog about the error response
-        Get.defaultDialog(
-            middleText: 'Register Error',
-            textConfirm: 'OK',
-            confirmTextColor: Colors.white,
-            onConfirm: () {
-              Get.back();
-            });
-      }
+      //Set isLogin to true
+      authManager.login(user.user?.uid);
+      //Set return message
+      sStatusMessage = "OK";
     } on FirebaseAuthException catch (e) {
-      // this is solely for the Firebase Auth Exception
-      // for example : password did not match
-      //print(e.message);
-      // Get.snackbar("Error", e.message!);
-      Get.snackbar(
-        "Error",
-        e.message!,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      //signOut
+      signOut();
+      //Set return message
+      sStatusMessage = e.code;
     } catch (e) {
-      // this is temporary. you can handle different kinds of activities
-      //such as dialogue to indicate what's wrong
-      print(e.toString());
+      //signOut
+      signOut();
+      //Set return message
+      sStatusMessage = e.toString();
     }
+
+    return sStatusMessage;
   }
 
   void signOut() {

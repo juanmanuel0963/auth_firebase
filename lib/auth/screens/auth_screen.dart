@@ -58,31 +58,17 @@ class _LoginViewState extends State<AuthScreen> {
           controller: passwordCtr..text = "123456",
           decoration: inputDecoration('Password', Icons.lock),
         ),
-        ElevatedButton(
-          onPressed: () async {
-            if (formKey.currentState?.validate() ?? false) {
-              //await _viewModel.loginUser(emailCtr.text, passwordCtr.text);
-
-              String sStatusMessage = await AuthController.authInstance.login(
-                emailCtr.text.trim(),
-                passwordCtr.text.trim(),
-              );
-
-              // waitingView();
-
-              //Simulate other services for 3 seconds
-              //Future.delayed(const Duration(seconds: 3));
-
-              Get.defaultDialog(
-                  middleText: sStatusMessage,
-                  textConfirm: 'OK',
-                  confirmTextColor: Colors.white,
-                  onConfirm: () {
-                    Get.back();
-                  });
-            }
-          },
-          child: const Text('Login'),
+        ElevatedButton.icon(
+          icon: _isLoading
+              ? const CircularProgressIndicator()
+              : const Icon(
+                  Icons.access_alarm,
+                  size: 0,
+                ),
+          label: Text(
+            _isLoading ? 'Loading...' : 'Login',
+          ),
+          onPressed: _isLoading ? null : authLoginLoading,
         ),
         TextButton(
           onPressed: () {
@@ -134,18 +120,17 @@ class _LoginViewState extends State<AuthScreen> {
           },
           decoration: inputDecoration('Retype Password', Icons.lock),
         ),
-        ElevatedButton(
-          onPressed: () async {
-            if (formKey.currentState?.validate() ?? false) {
-              //await _viewModel.registerUser(emailCtr.text, passwordCtr.text);
-
-              AuthController.authInstance.register(
-                emailCtr.text.trim(),
-                passwordCtr.text.trim(),
-              );
-            }
-          },
-          child: const Text('Register'),
+        ElevatedButton.icon(
+          icon: _isLoading
+              ? const CircularProgressIndicator()
+              : const Icon(
+                  Icons.access_alarm,
+                  size: 0,
+                ),
+          label: Text(
+            _isLoading ? 'Loading...' : 'Register',
+          ),
+          onPressed: _isLoading ? null : authRegisterLoading,
         ),
         TextButton(
           onPressed: () {
@@ -159,21 +144,63 @@ class _LoginViewState extends State<AuthScreen> {
     );
   }
 
-  Scaffold waitingView() {
-    return Scaffold(
-        body: Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: CircularProgressIndicator(),
-          ),
-          Text('Loading...'),
-        ],
-      ),
-    ));
+  // The indicator will show up when _isLoading = true.
+  // The button will be unpressable, too.
+  bool _isLoading = false;
+
+  // This function will be triggered when the button is pressed
+  void authLoginLoading() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (formKey.currentState?.validate() ?? false) {
+      String sStatusMessage = await AuthController.authInstance.login(
+        emailCtr.text.trim(),
+        passwordCtr.text.trim(),
+      );
+
+      if (sStatusMessage != "OK") {
+        Get.defaultDialog(
+            middleText: sStatusMessage,
+            textConfirm: 'OK',
+            confirmTextColor: Colors.white,
+            onConfirm: () {
+              Get.back();
+            });
+      }
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void authRegisterLoading() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (formKey.currentState?.validate() ?? false) {
+      String sStatusMessage = await AuthController.authInstance.register(
+        emailCtr.text.trim(),
+        passwordCtr.text.trim(),
+      );
+
+      if (sStatusMessage != "OK") {
+        Get.defaultDialog(
+            middleText: sStatusMessage,
+            textConfirm: 'OK',
+            confirmTextColor: Colors.white,
+            onConfirm: () {
+              Get.back();
+            });
+      }
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
 

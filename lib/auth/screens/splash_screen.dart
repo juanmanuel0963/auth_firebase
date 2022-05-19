@@ -7,6 +7,7 @@ class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);
 
   final AuthManager _authmanager = Get.put(AuthManager());
+
   Future<void> initializeSettings() async {
     _authmanager.checkLoginStatus();
 
