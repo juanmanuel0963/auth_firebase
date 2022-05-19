@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   static AuthController authInstance = Get.find();
   late Rx<User?> firebaseUser;
-  late final AuthManager _authManager;
+  late final AuthManager authManager;
 
   @override
   void onInit() {
     super.onInit();
-    _authManager = Get.find();
+    authManager = Get.find();
   }
 
   @override
@@ -35,6 +35,33 @@ class AuthController extends GetxController {
     }
   }
 */
+  Future<String> login(String email, String password) async {
+    //Status message
+    String sStatusMessage = "";
+
+    try {
+      //User authentication in Firebase
+      final UserCredential user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      //Set isLogin to true
+      authManager.login(user.user?.uid);
+      //Set return message
+      sStatusMessage = "OK";
+    } on FirebaseAuthException catch (e) {
+      //signOut
+      signOut();
+      //Set return message
+      sStatusMessage = e.code;
+    } catch (e) {
+      //signOut
+      signOut();
+      //Set return message
+      sStatusMessage = e.toString();
+    }
+
+    return sStatusMessage;
+  }
+
   void register(String email, String password) async {
     try {
       final UserCredential user = await auth.createUserWithEmailAndPassword(
@@ -42,7 +69,7 @@ class AuthController extends GetxController {
 
       if (user.user != null) {
         /// Set isLogin to true
-        _authManager.login(user.user?.uid);
+        authManager.login(user.user?.uid);
       } else {
         /// Show user a dialog about the error response
         Get.defaultDialog(
@@ -70,43 +97,10 @@ class AuthController extends GetxController {
     }
   }
 
-  void login(String email, String password) async {
-    try {
-      final UserCredential user = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-
-      if (user.user != null) {
-        /// Set isLogin to true
-        _authManager.login(user.user?.uid);
-      } else {
-        /// Show user a dialog about the error response
-        Get.defaultDialog(
-            middleText: 'User not found!',
-            textConfirm: 'OK',
-            confirmTextColor: Colors.white,
-            onConfirm: () {
-              Get.back();
-            });
-      }
-    } on FirebaseAuthException catch (e) {
-      // this is solely for the Firebase Auth Exception
-      // for example : password did not match
-      //print(e.message);
-      // Get.snackbar("Error", e.message!);
-      Get.snackbar(
-        "Error",
-        e.message!,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   void signOut() {
     try {
-      _authManager.logOut();
       auth.signOut();
+      authManager.logOut();
     } catch (e) {
       print(e.toString());
     }

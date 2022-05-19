@@ -1,5 +1,6 @@
 import 'package:auth_firebase/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -62,10 +63,23 @@ class _LoginViewState extends State<AuthScreen> {
             if (formKey.currentState?.validate() ?? false) {
               //await _viewModel.loginUser(emailCtr.text, passwordCtr.text);
 
-              AuthController.authInstance.login(
+              String sStatusMessage = await AuthController.authInstance.login(
                 emailCtr.text.trim(),
                 passwordCtr.text.trim(),
               );
+
+              // waitingView();
+
+              //Simulate other services for 3 seconds
+              //Future.delayed(const Duration(seconds: 3));
+
+              Get.defaultDialog(
+                  middleText: sStatusMessage,
+                  textConfirm: 'OK',
+                  confirmTextColor: Colors.white,
+                  onConfirm: () {
+                    Get.back();
+                  });
             }
           },
           child: const Text('Login'),
@@ -143,6 +157,23 @@ class _LoginViewState extends State<AuthScreen> {
         )
       ]),
     );
+  }
+
+  Scaffold waitingView() {
+    return Scaffold(
+        body: Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: CircularProgressIndicator(),
+          ),
+          Text('Loading...'),
+        ],
+      ),
+    ));
   }
 }
 
