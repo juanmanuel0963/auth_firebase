@@ -1,6 +1,7 @@
 import 'package:auth_firebase/auth/constants/firebase_constants.dart';
 import 'package:auth_firebase/auth/controllers/auth_controller.dart';
 import 'package:auth_firebase/auth/screens/splash_screen.dart';
+import 'package:auth_firebase/loading/loading_overlay.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ void main() async {
   await GetStorage.init();
 
   firebaseInitialization.then((value) {
-    // we are going to inject the auth controller over here!
+    // We inject the auth controller
     Get.put(AuthController());
   });
 
@@ -29,7 +30,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: SplashScreen(),
+      //home: SplashScreen(),
+      home: LoadingOverlay(
+        child: SplashScreen(),
+      ),
     );
   }
 }

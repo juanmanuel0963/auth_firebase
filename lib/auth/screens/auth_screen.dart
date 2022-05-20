@@ -1,4 +1,5 @@
 import 'package:auth_firebase/auth/controllers/auth_controller.dart';
+import 'package:auth_firebase/loading/loading_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,12 +7,11 @@ class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  AuthScreenState createState() => AuthScreenState();
 }
 
-class _LoginViewState extends State<AuthScreen> {
+class AuthScreenState extends State<AuthScreen> {
   final GlobalKey<FormState> formKey = GlobalKey();
-  //LoginViewModel _viewModel = Get.put(LoginViewModel());
 
   TextEditingController emailCtr = TextEditingController();
   TextEditingController passwordCtr = TextEditingController();
@@ -59,16 +59,12 @@ class _LoginViewState extends State<AuthScreen> {
           decoration: inputDecoration('Password', Icons.lock),
         ),
         ElevatedButton.icon(
-          icon: _isLoading
-              ? const CircularProgressIndicator()
-              : const Icon(
-                  Icons.access_alarm,
-                  size: 0,
-                ),
-          label: Text(
-            _isLoading ? 'Loading...' : 'Login',
+          icon: const Icon(
+            Icons.access_alarm,
+            size: 0,
           ),
-          onPressed: _isLoading ? null : authLoginLoading,
+          label: const Text('Login'),
+          onPressed: authLoginLoading,
         ),
         TextButton(
           onPressed: () {
@@ -121,16 +117,12 @@ class _LoginViewState extends State<AuthScreen> {
           decoration: inputDecoration('Retype Password', Icons.lock),
         ),
         ElevatedButton.icon(
-          icon: _isLoading
-              ? const CircularProgressIndicator()
-              : const Icon(
-                  Icons.access_alarm,
-                  size: 0,
-                ),
-          label: Text(
-            _isLoading ? 'Loading...' : 'Register',
+          icon: const Icon(
+            Icons.access_alarm,
+            size: 0,
           ),
-          onPressed: _isLoading ? null : authRegisterLoading,
+          label: const Text('Register'),
+          onPressed: authRegisterLoading,
         ),
         TextButton(
           onPressed: () {
@@ -144,15 +136,10 @@ class _LoginViewState extends State<AuthScreen> {
     );
   }
 
-  // The indicator will show up when _isLoading = true.
-  // The button will be unpressable, too.
-  bool _isLoading = false;
-
   // This function will be triggered when the button is pressed
   void authLoginLoading() async {
-    setState(() {
-      _isLoading = true;
-    });
+    LoadingOverlay.of(context).show();
+    await Future.delayed(const Duration(seconds: 3));
 
     if (formKey.currentState?.validate() ?? false) {
       String sStatusMessage = await AuthController.authInstance.login(
@@ -171,15 +158,12 @@ class _LoginViewState extends State<AuthScreen> {
       }
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    LoadingOverlay.of(context).hide();
   }
 
   void authRegisterLoading() async {
-    setState(() {
-      _isLoading = true;
-    });
+    LoadingOverlay.of(context).show();
+    await Future.delayed(const Duration(seconds: 3));
 
     if (formKey.currentState?.validate() ?? false) {
       String sStatusMessage = await AuthController.authInstance.register(
@@ -198,9 +182,7 @@ class _LoginViewState extends State<AuthScreen> {
       }
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    LoadingOverlay.of(context).hide();
   }
 }
 
