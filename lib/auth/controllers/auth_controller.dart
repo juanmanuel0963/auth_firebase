@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:auth_firebase/auth/constants/firebase_constants.dart';
 import 'package:auth_firebase/auth/helpers/auth_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:async';
 
 class AuthController extends GetxController {
   static AuthController authInstance = Get.find();
@@ -37,26 +39,32 @@ class AuthController extends GetxController {
   Future<String> login(String email, String password) async {
     //Status message
     String sStatusMessage = "";
-
     try {
-      //User authentication in Firebase
-      final UserCredential user = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      //Set isLogin to true
-      authManager.login(user.user?.uid);
-      //Set return message
-      sStatusMessage = "OK";
+      await auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((firebaseUser) {
+        if (firebaseUser.user != null) {
+          //Set isLogin to true
+          authManager.login(firebaseUser.user?.uid);
+          //Set return message
+          sStatusMessage = "OK";
+        }
+      });
     } on FirebaseAuthException catch (e) {
-      //signOut
-      signOut();
       //Set return message
       sStatusMessage = e.code;
-    } catch (e) {
       //signOut
       signOut();
+      //Print Exception
+      debugPrint("App Exception: auth_controller/login : " + sStatusMessage);
+    } catch (e) {
       //Set return message
       sStatusMessage = e.toString();
-    }
+      //signOut
+      signOut();
+      //Print Exception
+      debugPrint("App Exception: auth_controller/login : " + sStatusMessage);
+    } finally {}
 
     return sStatusMessage;
   }
@@ -64,36 +72,46 @@ class AuthController extends GetxController {
   Future<String> register(String email, String password) async {
     //Status message
     String sStatusMessage = "";
-
     try {
-      //User authentication in Firebase
-      final UserCredential user = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      //Set isLogin to true
-      authManager.login(user.user?.uid);
-      //Set return message
-      sStatusMessage = "OK";
+      await auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((firebaseUser) {
+        if (firebaseUser.user != null) {
+          //Set isLogin to true
+          authManager.login(firebaseUser.user?.uid);
+          //Set return message
+          sStatusMessage = "OK";
+        }
+      });
     } on FirebaseAuthException catch (e) {
-      //signOut
-      signOut();
       //Set return message
       sStatusMessage = e.code;
-    } catch (e) {
+      //Print Exception
+      debugPrint("App Exception: auth_controller/login : " + sStatusMessage);
       //signOut
       signOut();
+    } catch (e) {
       //Set return message
       sStatusMessage = e.toString();
-    }
+      //Print Exception
+      debugPrint("App Exception: auth_controller/login : " + sStatusMessage);
+      //signOut
+      signOut();
+    } finally {}
 
     return sStatusMessage;
   }
 
   void signOut() {
+    //Status message
+    String sStatusMessage = "";
+
     try {
       auth.signOut();
       authManager.logOut();
     } catch (e) {
-      print(e.toString());
+      //Print Exception
+      debugPrint("App Exception: auth_controller/signOut : " + sStatusMessage);
     }
   }
 }
