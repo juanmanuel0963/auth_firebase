@@ -13,7 +13,7 @@ class AuthOnBoard extends StatelessWidget {
 
     return Obx(() {
       return _authManager.isLogged.value
-          ? const HomeView()
+          ? const HomeScreen()
           : const AuthScreen();
     });
   }

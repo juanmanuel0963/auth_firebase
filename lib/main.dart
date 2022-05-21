@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         return Routes.fadeThrough(settings, (context) {
           switch (settings.name) {
             case Routes.home:
-              return const HomeView();
+              return const HomeScreen();
             case Routes.splash:
               return SplashScreen();
             case Routes.settings:

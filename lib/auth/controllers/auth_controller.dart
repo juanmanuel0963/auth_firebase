@@ -29,7 +29,7 @@ class AuthController extends GetxController {
   _setInitialScreen(User? user) {
     if (user != null) {
       // user is logged in
-      Get.offAll(() => const HomeView());
+      Get.offAll(() => const HomeScreen());
     } else {
       // user is null as in user is not available or not logged in
       Get.offAll(() => const LoginView());
