@@ -1,5 +1,6 @@
 import 'package:auth_firebase/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text('home'.tr),
         actions: [
           IconButton(
               onPressed: () {
@@ -26,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: const Center(
-        child: Text('HOME VIEW'),
+        child: Text('home'),
       ),
     );
   }

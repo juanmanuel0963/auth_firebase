@@ -1,8 +1,8 @@
 import 'package:auth_firebase/auth/constants/firebase_constants.dart';
 import 'package:auth_firebase/auth/controllers/auth_controller.dart';
 import 'package:auth_firebase/auth/screens/splash_screen.dart';
-import 'package:auth_firebase/loading/loading_overlay.dart';
-import 'package:auth_firebase/translations/app_translations.dart';
+import 'package:auth_firebase/helpers/loading/loading_overlay.dart';
+import 'package:auth_firebase/helpers/translations/app_translations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

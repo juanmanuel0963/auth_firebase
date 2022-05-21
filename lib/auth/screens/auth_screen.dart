@@ -1,5 +1,5 @@
 import 'package:auth_firebase/auth/controllers/auth_controller.dart';
-import 'package:auth_firebase/loading/loading_overlay.dart';
+import 'package:auth_firebase/helpers/loading/loading_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,8 +22,8 @@ class AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       appBar: AppBar(
         title: _formType == FormType.login
-            ? const Text('Login')
-            : const Text('Register'),
+            ? Text('login'.tr)
+            : Text('register'.tr),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -39,31 +39,29 @@ class AuthScreenState extends State<AuthScreen> {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         TextFormField(
           controller: emailCtr..text = "george.bluth@reqres.in",
-          validator: (value) {
-            return (value == null || value.isEmpty)
-                ? 'Please Enter Email'
-                : null;
-          },
           decoration: inputDecoration('E-mail', Icons.person),
+          validator: (value) {
+            return (value == null || value.isEmpty) ? 'enter_email'.tr : null;
+          },
         ),
         const SizedBox(
           height: 8,
         ),
         TextFormField(
+          controller: passwordCtr..text = "123456",
+          decoration: inputDecoration('password'.tr, Icons.lock),
           validator: (value) {
             return (value == null || value.isEmpty)
-                ? 'Please Enter Password'
+                ? 'enter_password'.tr
                 : null;
           },
-          controller: passwordCtr..text = "123456",
-          decoration: inputDecoration('Password', Icons.lock),
         ),
         ElevatedButton.icon(
           icon: const Icon(
             Icons.access_alarm,
             size: 0,
           ),
-          label: const Text('Login'),
+          label: Text('login'.tr),
           onPressed: authLoginLoading,
         ),
         TextButton(
@@ -72,7 +70,7 @@ class AuthScreenState extends State<AuthScreen> {
               _formType = FormType.register;
             });
           },
-          child: const Text('Does not have an account?'),
+          child: Text('not_have_account'.tr),
         )
       ]),
     );
@@ -85,24 +83,22 @@ class AuthScreenState extends State<AuthScreen> {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         TextFormField(
           controller: emailCtr..text = "george.bluth@reqres.in",
-          validator: (value) {
-            return (value == null || value.isEmpty)
-                ? 'Please Enter Email'
-                : null;
-          },
           decoration: inputDecoration('E-mail', Icons.person),
+          validator: (value) {
+            return (value == null || value.isEmpty) ? 'enter_email'.tr : null;
+          },
         ),
         const SizedBox(
           height: 8,
         ),
         TextFormField(
+          controller: passwordCtr..text = "123456",
+          decoration: inputDecoration('password'.tr, Icons.lock),
           validator: (value) {
             return (value == null || value.isEmpty)
-                ? 'Please Enter Password'
+                ? 'enter_password'.tr
                 : null;
           },
-          controller: passwordCtr..text = "123456",
-          decoration: inputDecoration('Password', Icons.lock),
         ),
         const SizedBox(
           height: 8,
@@ -111,17 +107,17 @@ class AuthScreenState extends State<AuthScreen> {
           initialValue: "123456",
           validator: (value) {
             return (value == null || value.isEmpty || value != passwordCtr.text)
-                ? 'Passwords does not match'
+                ? 'password_not_match'.tr
                 : null;
           },
-          decoration: inputDecoration('Retype Password', Icons.lock),
+          decoration: inputDecoration('retype_password'.tr, Icons.lock),
         ),
         ElevatedButton.icon(
           icon: const Icon(
             Icons.access_alarm,
             size: 0,
           ),
-          label: const Text('Register'),
+          label: Text('register'.tr),
           onPressed: authRegisterLoading,
         ),
         TextButton(
@@ -130,7 +126,7 @@ class AuthScreenState extends State<AuthScreen> {
               _formType = FormType.login;
             });
           },
-          child: const Text('Login'),
+          child: Text('login'.tr),
         )
       ]),
     );
@@ -147,7 +143,7 @@ class AuthScreenState extends State<AuthScreen> {
         passwordCtr.text.trim(),
       );
 
-      if (sStatusMessage != "OK") {
+      if (sStatusMessage != 'OK') {
         Get.defaultDialog(
             middleText: sStatusMessage,
             textConfirm: 'OK',
@@ -171,7 +167,7 @@ class AuthScreenState extends State<AuthScreen> {
         passwordCtr.text.trim(),
       );
 
-      if (sStatusMessage != "OK") {
+      if (sStatusMessage != 'OK') {
         Get.defaultDialog(
             middleText: sStatusMessage,
             textConfirm: 'OK',
