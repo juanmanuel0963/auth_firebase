@@ -17,6 +17,12 @@
             "deviceId": "V3XDU18115002027"
         },
         {
+            "name": "Android_5_Tablet_Sebas_API_21",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "21d8ca2917bf64f0"
+        },
+        {
             "name": "Android_5_Cell_Emulator_API_21",
             "request": "launch",
             "type": "dart",
