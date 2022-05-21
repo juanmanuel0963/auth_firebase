@@ -3,9 +3,15 @@ import 'package:auth_firebase/auth/helpers/auth_onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatelessWidget {
-  SplashScreen({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
+  @override
+  SplashScreenState createState() => SplashScreenState();
+}
+
+class SplashScreenState extends State<SplashScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey();
   final AuthManager _authmanager = Get.put(AuthManager());
 
   @override

@@ -12,9 +12,8 @@ class AuthScreen extends StatefulWidget {
 
 class AuthScreenState extends State<AuthScreen> {
   final GlobalKey<FormState> formKey = GlobalKey();
-
-  TextEditingController emailCtr = TextEditingController();
-  TextEditingController passwordCtr = TextEditingController();
+  final TextEditingController emailCtr = TextEditingController();
+  final TextEditingController passwordCtr = TextEditingController();
   FormType _formType = FormType.login;
 
   @override
