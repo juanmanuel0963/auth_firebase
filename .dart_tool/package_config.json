@@ -14,6 +14,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "animations",
+      "rootUri": "file:///C:/Users/Juan/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/animations-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "async",
       "rootUri": "file:///C:/Users/Juan/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/async-2.8.2",
       "packageUri": "lib/",
@@ -314,6 +320,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "responsive_framework",
+      "rootUri": "file:///C:/Users/Juan/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/responsive_framework-0.1.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///C:/Users/Juan/AppData/Local/Programs/flutter_2.10.5/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -386,7 +398,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-05-21T02:19:42.165328Z",
+  "generated": "2022-05-21T19:42:05.366357Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
