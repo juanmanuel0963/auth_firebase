@@ -1,6 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'dart:ui';
 
 class LoadingOverlay extends StatefulWidget {
   const LoadingOverlay({
@@ -64,7 +64,7 @@ class _LoadingOverlayState extends State<LoadingOverlay> {
                               child: CircularProgressIndicator(),
                             ),
                             Text(
-                              'Loading...',
+                              'loading'.tr,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],

@@ -39,12 +39,12 @@ class SplashScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Padding(
+        children: [
+          const Padding(
             padding: EdgeInsets.all(16.0),
             child: CircularProgressIndicator(),
           ),
-          Text('Loading...'),
+          Text('loading'.tr),
         ],
       ),
     ));
